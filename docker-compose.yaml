@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: mongo:latest
+    # allow the mongo to run on single node replica set to allow change streams
+    command: --replSet rs0
+    ports:
+      - 27017:27017
+
+  mongo-init-replica:
+    image: mongo:latest
+    depends_on:
+      - db
+    command: >
+      bash -c "
+        sleep 10;
+        mongo --host db --eval 'rs.initiate()';
+      "
+
+  server:
+    build: ./server
+    ports:
+      - 8080:8080
+      - 8081:8081
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    depends_on:
+      - server

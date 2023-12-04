@@ -4,8 +4,9 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "createdb": "node ./database/createSchema.js"
+    "db:start": "docker run -d --rm --name mongo-db-local -p 27017:27017 mongo:latest",
+    "db:stop": "docker stop mongo-db-local",
+    "db:seed": "TODO"
   },
   "keywords": [],
   "author": "",
