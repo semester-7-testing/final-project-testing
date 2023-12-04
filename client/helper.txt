@@ -1,4 +1,4 @@
 After installing new smui component run:
-npm run prepare
+npm run theme:build
 
 

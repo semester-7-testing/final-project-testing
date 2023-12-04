@@ -1,17 +1,24 @@
-FROM node:16
+FROM node:16 AS build
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
-COPY . .
-
 RUN npm install
 
-# Compile the SMUI theme
-RUN npm run prepare
+COPY . .
+
+RUN mkdir -p public/build
+RUN npm run theme:build
+
+RUN npm run build
+
+FROM nginx:stable-alpine AS production
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "start" ]
+CMD ["nginx", "-g", "daemon off;"]

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start": "vite",
     "start:mobile": "vite --host",
-    "prepare": "smui-theme compile public/build/smui.css -i src/theme"
+    "theme:build": "smui-theme compile public/build/smui.css -i src/theme"
   },
   "devDependencies": {
     "@smui/button": "^6.0.0-beta.16",
