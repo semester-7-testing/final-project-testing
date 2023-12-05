@@ -2,32 +2,56 @@ version: "3"
 services:
   db:
     image: mongo:latest
+    restart: always
     # allow the mongo to run on single node replica set to allow change streams
-    command: --replSet rs0
+    command: mongod --replSet my-mongo-set
     ports:
       - 27017:27017
+    networks:
+      - mynetwork
 
-  mongo-init-replica:
+  mongoinit:
     image: mongo:latest
+    restart: "no"
     depends_on:
       - db
     command: >
-      bash -c "
-        sleep 10;
-        mongo --host db --eval 'rs.initiate()';
-      "
+      mongo --host db:27017 --eval 
+      '
+      db = (new Mongo("db:27017")).getDB("test");
+      config = {
+      "_id" : "my-mongo-set",
+      "members" : [
+        {
+          "_id" : 0,
+          "host" : "db:27017"
+        }
+      ]
+      };
+      rs.initiate(config);
+      '
+    networks:
+      - mynetwork
 
   server:
     build: ./server
+    restart: always
     ports:
       - 8080:8080
       - 8081:8081
     depends_on:
       - db
+    environment:
+      - MONGO_URI=mongodb://db:27017/?directConnection=true&tls=false
+    networks:
+      - mynetwork
 
   client:
     build: ./client
+    restart: always
     ports:
       - 3000:3000
     depends_on:
       - server
+networks:
+  mynetwork:
