@@ -39,6 +39,7 @@ services:
         }
         sleep(5000);
         // Seeding data
+        db.products.deleteMany({});
         db.products.insertMany([
           { \"name\": \"Johnaa\", \"price\": 30, \"imgUrl\": \"New York\", \"description\": \"New York\" },
           { \"name\": \"Johnaga\", \"price\": 50, \"imgUrl\": \"New York\", \"description\": \"Newg York\" }
