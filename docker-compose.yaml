@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: mongo:latest
+    image: mongo:4.4
     restart: always
     # allow the mongo to run on single node replica set to allow change streams
     command: mongod --replSet my-mongo-set
@@ -10,26 +10,37 @@ services:
     networks:
       - mynetwork
 
+  # do not touch this container, it is used to initialize the replica set and then it will exit
+  # hours spent on this script: 89964123456 hours
   mongoinit:
-    image: mongo:latest
+    image: mongo:4.4
     restart: "no"
     depends_on:
       - db
     command: >
-      mongo --host db:27017 --eval 
-      '
-      db = (new Mongo("db:27017")).getDB("test");
-      config = {
-      "_id" : "my-mongo-set",
-      "members" : [
-        {
-          "_id" : 0,
-          "host" : "db:27017"
+      bash -c "
+        until mongo --host db:27017 --eval 'db.adminCommand(\"ping\")'; do
+          sleep 1
+          echo 'waiting for mongodb...'
+        done
+        mongo --host db:27017 <<-'EOF'
+        db = (new Mongo(\"db:27017\")).getDB(\"test\");
+        config = {
+        \"_id\" : \"my-mongo-set\",
+        \"members\" : [
+          {
+            \"_id\" : 0,
+            \"host\" : \"db:27017\"
+          }
+        ]
+        };
+        rs.initiate(config);
+        while (rs.status().hasOwnProperty(\"myState\") && rs.status().myState != 1) {
+          print(\"Waiting for primary...\");
+          sleep(1000);
         }
-      ]
-      };
-      rs.initiate(config);
-      '
+        EOF
+      "
     networks:
       - mynetwork
 
@@ -42,7 +53,7 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URI=mongodb://db:27017/?directConnection=true&tls=false
+      - MONGO_URI=mongodb://db:27017/test?directConnection=true&tls=false&readPreference=primaryPreferred&replicaSet=my-mongo-set
     networks:
       - mynetwork
 
