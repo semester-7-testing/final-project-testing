@@ -7,8 +7,6 @@ services:
     command: mongod --replSet my-mongo-set
     ports:
       - 27017:27017
-    networks:
-      - mynetwork
 
   # do not touch this container, it is used to initialize the replica set and then it will exit
   # hours spent on this script: 89964123456 hours
@@ -39,10 +37,14 @@ services:
           print(\"Waiting for primary...\");
           sleep(1000);
         }
+        sleep(5000);
+        // Seeding data
+        db.products.insertMany([
+          { \"name\": \"Johnaa\", \"price\": 30, \"imgUrl\": \"New York\", \"description\": \"New York\" },
+          { \"name\": \"Johnaga\", \"price\": 50, \"imgUrl\": \"New York\", \"description\": \"Newg York\" }
+        ]);
         EOF
       "
-    networks:
-      - mynetwork
 
   server:
     build: ./server
@@ -53,9 +55,7 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URI=mongodb://db:27017/test?directConnection=true&tls=false&readPreference=primaryPreferred&replicaSet=my-mongo-set
-    networks:
-      - mynetwork
+      - MONGO_URI=mongodb://db:27017/?directConnection=true
 
   client:
     build: ./client
@@ -64,5 +64,3 @@ services:
       - 3000:3000
     depends_on:
       - server
-networks:
-  mynetwork:
