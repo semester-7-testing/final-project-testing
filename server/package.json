@@ -4,9 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "db:start": "docker run -d --rm --name mongo-db-local -p 27017:27017 mongo:latest",
-    "db:stop": "docker stop mongo-db-local",
-    "db:seed": "TODO"
+    "test:unit": "jest \".*\\.unit\\.spec\\.js$\"",
+    "test:integration": "jest \".*\\.integration\\.spec\\.js$\""
   },
   "keywords": [],
   "author": "",
@@ -29,7 +28,12 @@
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.3.3"
   },
   "overrides": {
     "socket.io-parser": "^4.2.2"
