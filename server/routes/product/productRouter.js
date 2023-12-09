@@ -1,6 +1,6 @@
 import { Router } from "express";
-import Product from "../models/product.js";
-import { checkAuth, checkAdmin } from "../middleware/auth.js";
+import Product from "../../models/product.js";
+import { checkAuth, checkAdmin } from "../../middleware/auth.js";
 import escapeRegExp from "lodash/escapeRegExp.js";
 
 const router = Router();

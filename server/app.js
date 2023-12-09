@@ -10,7 +10,7 @@ import { options } from "./swagger/swaggerConfig.js";
 //routes
 import authRouter from "./routes/authRouter.js";
 import orderRouter from "./routes/orderRouter.js";
-import productsRouter from "./routes/productsRouter.js";
+import productRouter from "./routes/product/productRouter.js";
 import chatRoomRouter from "./routes/chatRoomRouter.js";
 import checkoutRouter from "./routes/checkoutRouter.js";
 import assetsRouter from "./routes/assetsRouter.js";
@@ -30,7 +30,7 @@ mongoose
     app.use(limiter);
     //routers
     app.use("/api/auth", authRouter);
-    app.use("/api/products", productsRouter);
+    app.use("/api/products", productRouter);
     app.use("/api/order", orderRouter);
     app.use("/api/chatrooms", chatRoomRouter);
     app.use("/api/checkout", checkoutRouter);
