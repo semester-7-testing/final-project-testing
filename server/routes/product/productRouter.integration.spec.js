@@ -5,7 +5,7 @@ import JWT from "jsonwebtoken";
 dotenv.config();
 
 describe("product router", () => {
-  const productData = {
+  const product = {
     name: "The best nike shoes",
     description: "You need to buy them!",
     price: 1,
@@ -22,9 +22,7 @@ describe("product router", () => {
       `http://localhost:${process.env.SERVER_PORT}`
     )
       .post("/api/products")
-      .send(productData)
-      .set("Content-Type", "application/json")
-      .set("Content-Length", JSON.stringify(productData).length)
+      .send(product)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.statusCode).toBe(201);
@@ -44,9 +42,7 @@ describe("product router", () => {
       `http://localhost:${process.env.SERVER_PORT}`
     )
       .post("/api/products")
-      .send(productData)
-      .set("Content-Type", "application/json")
-      .set("Content-Length", JSON.stringify(productData).length)
+      .send(product)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.statusCode).toBe(403);
