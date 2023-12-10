@@ -52,8 +52,14 @@ describe('User Router', () => {
     orderDoc = await new Order(order);
     await orderDoc.save();
 
+    const testIfUserAdded = await User.find({ email: user.email });
+    console.log('test if user was added', testIfUserAdded);
+
+    const testIfProductAdded = await Product.find({ name: product.name });
+    console.log('test if product was added', testIfProductAdded);
+
     const testIfOrderAdded = await Order.find({ userId: testUserId });
-    console.log(testIfOrderAdded);
+    console.log('test if order was added', testIfOrderAdded);
   }
 
   beforeEach(async () => {
@@ -79,7 +85,7 @@ describe('User Router', () => {
         isAdmin: true,
         id: '123',
       };
-      
+
       const token = JWT.sign(testUserTokenPayload, process.env.JWT_SECRET, {
         expiresIn: '7d',
       });
