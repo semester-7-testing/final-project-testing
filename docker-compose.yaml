@@ -82,6 +82,8 @@ services:
       - 8081:8081
     depends_on:
       - db
+    volumes:
+      - ./server:/usr/src/app
     environment:
       - MONGO_URI=mongodb://db:27017/?directConnection=true
 
