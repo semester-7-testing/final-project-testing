@@ -2,15 +2,36 @@
   import { user } from "../../store/store";
   import { HOME } from "../../routing/constants";
   import { Link } from "svelte-navigator";
+  import { SERVER_API_URL } from "@src/common/constants";
+  import axios from "axios";
+  import Loader from "@src/common/Loader.svelte";
+  import { onMount } from "svelte";
+
+  let isLoadingOrders = true;
+  let orders = [];
+
+  onMount(async () => {
+    const {
+      data: { data },
+    } = await axios.get(`${SERVER_API_URL}/users/${$user.id}/orders`, {
+      headers: {
+        Authorization: `Bearer ${$user.token}`,
+      },
+    });
+    isLoadingOrders = false;
+    orders = data.orders;
+  });
 </script>
 
 <main>
   <div class="wrapper">
     <h2>My Orders</h2>
     <p>Here you can see overview of your orders</p>
-    {#if $user.orders !== null && $user.orders.length !== 0}
+    {#if isLoadingOrders}
+      <Loader />
+    {:else if !!orders.length}
       <div class="itemsWrapper">
-        {#each $user.orders as order}
+        {#each orders as order}
           <div class="orderCard">
             <h5>Order Items</h5>
             <ul>

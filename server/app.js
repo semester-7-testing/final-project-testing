@@ -11,6 +11,7 @@ import { options } from "./swagger/swaggerConfig.js";
 import authRouter from "./routes/authRouter.js";
 import orderRouter from "./routes/orderRouter.js";
 import productRouter from "./routes/product/productRouter.js";
+import userRouter from "./routes/user/userRouter.js";
 import chatRoomRouter from "./routes/chatRoomRouter.js";
 import checkoutRouter from "./routes/checkoutRouter.js";
 import assetsRouter from "./routes/assetsRouter.js";
@@ -35,6 +36,7 @@ mongoose
     app.use("/api/chatrooms", chatRoomRouter);
     app.use("/api/checkout", checkoutRouter);
     app.use("/api/assets", assetsRouter);
+    app.use("/api/users", userRouter);
     app.use("/test", (req, res) => {
       res.send("Backend is working and is ready for requests");
     });
