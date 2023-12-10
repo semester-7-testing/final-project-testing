@@ -2,6 +2,10 @@ import { Router } from "express";
 import Product from "../../models/product.js";
 import { checkAuth, checkAdmin } from "../../middleware/auth.js";
 import escapeRegExp from "lodash/escapeRegExp.js";
+import {
+  createProductBodyValidationRules,
+  validate,
+} from "../../middleware/validation.js";
 
 const router = Router();
 
@@ -25,14 +29,21 @@ const router = Router();
  *       '500':
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post("/", checkAuth, checkAdmin, async (req, res) => {
-  await Product.create(req.body);
+router.post(
+  "/",
+  createProductBodyValidationRules(),
+  validate,
+  checkAuth,
+  checkAdmin,
+  async (req, res) => {
+    await Product.create(req.body);
 
-  res.status(201).json({
-    errors: [],
-    data: null,
-  });
-});
+    res.status(201).json({
+      errors: [],
+      data: null,
+    });
+  }
+);
 
 /**
  * @swagger
