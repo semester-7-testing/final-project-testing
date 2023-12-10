@@ -1,3 +1,5 @@
+import { users } from "../../cypress.config.mjs";
+
 describe("create a new product", () => {
   const timeStamp = Date.now();
   const product = {
@@ -13,10 +15,10 @@ describe("create a new product", () => {
     cy.getBySelector("login-button").click();
 
     cy.getBySelector("email-input").clear();
-    cy.getBySelector("email-input").type("admin@test.sk");
+    cy.getBySelector("email-input").type(users.adminUser.email);
 
     cy.getBySelector("password-input").clear();
-    cy.getBySelector("password-input").type("admin123");
+    cy.getBySelector("password-input").type(users.adminUser.password);
 
     cy.getBySelector("login-submit").click();
 
