@@ -26,8 +26,9 @@
       variant="outlined"
       bind:value={searchText}
       style="height: 100%; flex: 1"
+      data-qa="product-search-input"
     />
-    <Button variant="raised" type="submit">
+    <Button variant="raised" type="submit" data-qa="product-search-submit">
       <Label>Search</Label>
     </Button>
   </form>

@@ -1,0 +1,24 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test:open": "cypress open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/semester-7-testing/final-project-testing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/semester-7-testing/final-project-testing/issues"
+  },
+  "homepage": "https://github.com/semester-7-testing/final-project-testing#readme",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^13.6.1"
+  }
+}

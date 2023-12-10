@@ -9,17 +9,18 @@
 </script>
 
 <div class="card">
-  <img {src} alt={name} />
+  <img {src} alt={name} data-qa="card-img"/>
   <div>
-    <b>
+    <b data-qa="card-name">
       {name}
     </b>
   </div>
-  <div>{price} &euro;</div>
+  <div data-qa="card-price">{price} &euro;</div>
   <div class="bottom">
     <Button
       variant="raised"
       on:click={() => navigate(`${PRODUCT}/${productId}`)}
+      data-qa="card-details-button"
     >
       <Label>Details</Label>
     </Button>
