@@ -27,7 +27,11 @@ export const loginBodyValidationRules = () => {
 };
 
 export const createOrderBodyValidationRules = () => {
-  return [body("deliveryAddress").escape().trim()];
+  return [
+    body("deliveryAddress").escape().trim(),
+    body("email").isEmail().withMessage("The email is invalid"),
+    body("products").isArray().withMessage("The products should be an array"),
+  ];
 };
 
 export const createProductBodyValidationRules = () => {
@@ -36,6 +40,12 @@ export const createProductBodyValidationRules = () => {
     body("price").isNumeric().withMessage("The price should be a number"),
     body("description").notEmpty().withMessage("The description is required"),
     body("imgUrl").notEmpty().withMessage("The img url is required"),
+  ];
+};
+
+export const createCheckoutBodyValidationRules = () => {
+  return [
+    body("amount").isNumeric().withMessage("The amount should be a number"),
   ];
 };
 
