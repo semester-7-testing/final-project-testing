@@ -49,13 +49,14 @@
 <main>
   <div class="wrapper">
     <h2>Add new product</h2>
-    <form on:submit={handleSubmit}>
+    <form on:submit={handleSubmit} data-qa="add-product-form">
       <Textfield
         style="width: 100%;"
         helperLine$style="width: 100%;"
         bind:value={name}
         label="Product Name"
         required
+        data-qa="product-name"
       />
       <Textfield
         style="width: 100%;"
@@ -63,6 +64,7 @@
         bind:value={imgUrl}
         label="Product Image URL"
         required
+        data-qa="product-img-url"
       />
       <Textfield
         style="width: 100%;"
@@ -71,6 +73,7 @@
         label="Price"
         required
         type="number"
+        data-qa="product-price"
       />
       <Textfield
         textarea
@@ -79,10 +82,12 @@
         bind:value={description}
         label="Description"
         required
+        data-qa="product-description"
       />
       <Button
         variant="raised"
         type="submit"
+        data-qa="add-product-submit"
         style="width: 100%; margin-top: 16px"
         disabled={name === "" ||
           imgUrl === "" ||
@@ -95,7 +100,7 @@
   </div>
 </main>
 
-<Snackbar bind:this={snackbarWithClose} class="success">
+<Snackbar bind:this={snackbarWithClose} class="success" data-qa="add-product-success">
   <SnackLabel>New product has been added</SnackLabel>
   <Actions>
     <IconButton class="material-icons" title="Dismiss">close</IconButton>

@@ -30,6 +30,15 @@ export const createOrderBodyValidationRules = () => {
   return [body("deliveryAddress").escape().trim()];
 };
 
+export const createProductBodyValidationRules = () => {
+  return [
+    body("name").notEmpty().withMessage("The name is required"),
+    body("price").isNumeric().withMessage("The price should be a number"),
+    body("description").notEmpty().withMessage("The description is required"),
+    body("imgUrl").notEmpty().withMessage("The img url is required"),
+  ];
+};
+
 export const validate = (req, res, next) => {
   const validationsErrors = validationResult(req);
   if (!validationsErrors.isEmpty()) {

@@ -23,7 +23,6 @@
       email,
       password: await hashValue(password),
     };
-    console.log(requestBody);
     try {
       const {
         data: { data },
@@ -54,13 +53,14 @@
   <div class="wrapper">
     <h2>Login</h2>
     <p>Do not have account yet? Sign up <Link to={SIGNUP}>here.</Link></p>
-    <form on:submit={handleSubmit}>
+    <form on:submit={handleSubmit} data-qa="login-form">
       <Textfield
         style="width: 100%;"
         helperLine$style="width: 100%;"
         bind:value={email}
         label="Email"
         required
+        data-qa="email-input"
       />
       <Textfield
         style="width: 100%;"
@@ -69,15 +69,17 @@
         label="Password"
         required
         type="password"
+        data-qa="password-input"
       />
       {#if errorMessage !== ""}
-        <div class="errorMessage">{errorMessage}</div>
+        <div class="errorMessage" data-qa="login-error-message">{errorMessage}</div>
       {/if}
       <Button
         variant="raised"
         type="submit"
         style="width: 100%; margin-top: 16px"
         disabled={password === "" || email === ""}
+        data-qa="login-submit"
       >
         <Label>Login</Label>
       </Button>
