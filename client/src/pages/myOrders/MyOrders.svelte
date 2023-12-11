@@ -36,7 +36,7 @@
             <h5>Order Items</h5>
             <ul>
               {#each order as orderItem}
-                <li>{orderItem.quantity} x {orderItem.name}</li>
+                <li data-qa="orders-list">{orderItem.quantity} x {orderItem.name}</li>
               {/each}
             </ul>
           </div>
