@@ -11,7 +11,7 @@ import { options } from './swagger/swaggerConfig.js';
 import authRouter from './routes/auth/authRouter.js';
 import orderRouter from './routes/orderRouter.js';
 import productRouter from './routes/product/productRouter.js';
-import chatRoomRouter from './routes/chatRoomRouter.js';
+import chatRoomRouter from './routes/chatRoom/chatRoomRouter.js';
 import checkoutRouter from './routes/checkoutRouter.js';
 import assetsRouter from './routes/assetsRouter.js';
 

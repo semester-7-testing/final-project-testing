@@ -1,14 +1,14 @@
-import { Router } from "express";
-import { checkAdmin, checkAuth } from "../middleware/auth.js";
-import ChatRoom from "../models/chatRoom.js";
+import { Router } from 'express';
+import { checkAdmin, checkAuth } from '../../middleware/auth.js';
+import ChatRoom from '../../models/chatRoom.js';
 import {
   resolveAndMapUserNamesFromQuery,
   resolveAndMapUserNameFromQuery,
-} from "./functions.js";
+} from '../functions.js';
 
 const router = Router();
 
-router.get("/", checkAuth, checkAdmin, async (req, res) => {
+router.get('/', checkAuth, checkAdmin, async (req, res) => {
   try {
     let chatRooms = await ChatRoom.find();
     chatRooms = await resolveAndMapUserNamesFromQuery(chatRooms);
@@ -31,7 +31,7 @@ router.get("/", checkAuth, checkAdmin, async (req, res) => {
   }
 });
 
-router.post("/", checkAuth, async (req, res) => {
+router.post('/', checkAuth, async (req, res) => {
   try {
     await ChatRoom.create(req.body);
     res.status(201).json({
@@ -51,14 +51,14 @@ router.post("/", checkAuth, async (req, res) => {
   }
 });
 
-router.get("/:socketId", checkAuth, checkAdmin, async (req, res) => {
+router.get('/:socketId', checkAuth, checkAdmin, async (req, res) => {
   try {
     let chatRoom = await ChatRoom.findOne({ socketId: req.params.socketId });
     if (!chatRoom) {
       return res.status(404).json({
         errors: [
           {
-            msg: "Chat room not found",
+            msg: 'Chat room not found',
           },
         ],
         data: null,
@@ -75,7 +75,7 @@ router.get("/:socketId", checkAuth, checkAdmin, async (req, res) => {
     res.status(404).json({
       errors: [
         {
-          msg: "Chat room not found",
+          msg: 'Chat room not found',
         },
       ],
       data: null,
@@ -83,7 +83,7 @@ router.get("/:socketId", checkAuth, checkAdmin, async (req, res) => {
   }
 });
 
-router.delete("/", checkAuth, checkAdmin, async (req, res) => {
+router.delete('/', checkAuth, checkAdmin, async (req, res) => {
   try {
     await ChatRoom.deleteMany({});
 
@@ -97,7 +97,7 @@ router.delete("/", checkAuth, checkAdmin, async (req, res) => {
 });
 
 router.patch(
-  "/:socketId/messages/read",
+  '/:socketId/messages/read',
   checkAuth,
   checkAdmin,
   async (req, res) => {
@@ -111,7 +111,7 @@ router.patch(
         return res.status(404).json({
           errors: [
             {
-              msg: "Chat room not found",
+              msg: 'Chat room not found',
             },
           ],
           data: null,
