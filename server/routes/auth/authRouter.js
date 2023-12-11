@@ -1,17 +1,17 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
-import bcrypt from "bcryptjs";
-import User from "../models/user.js";
-import { respondWithUser } from "./functions.js";
-import { checkAuth } from "../middleware/auth.js";
+import bcrypt from 'bcryptjs';
+import User from '../../models/user.js';
+import { respondWithUser } from '../functions.js';
+import { checkAuth } from '../../middleware/auth.js';
 import {
   validate,
   singupBodyValidationRules,
   loginBodyValidationRules,
-} from "../middleware/validation.js";
+} from '../../middleware/validation.js';
 
 router.post(
-  "/signup",
+  '/signup',
   singupBodyValidationRules(),
   validate,
   async (req, res) => {
@@ -22,7 +22,7 @@ router.post(
       return res.status(400).json({
         errors: [
           {
-            msg: "Email already in use",
+            msg: 'Email already in use',
           },
         ],
         data: null,
@@ -37,12 +37,14 @@ router.post(
       isAdmin: false,
     });
 
+    console.log(newUser);
+
     respondWithUser(res, 201, newUser);
   }
 );
 
 router.post(
-  "/login",
+  '/login',
   loginBodyValidationRules(),
   validate,
   async (req, res) => {
@@ -54,7 +56,7 @@ router.post(
       return res.status(400).json({
         errors: [
           {
-            msg: "Invalid credentials",
+            msg: 'Invalid credentials',
           },
         ],
         data: null,
@@ -71,7 +73,7 @@ router.post(
       return res.status(400).json({
         errors: [
           {
-            msg: "Invalid credentials",
+            msg: 'Invalid credentials',
           },
         ],
         data: null,
@@ -82,7 +84,7 @@ router.post(
   }
 );
 
-router.get("/me", checkAuth, async (req, res) => {
+router.get('/me', checkAuth, async (req, res) => {
   const user = await User.findOne({ email: req.user.email });
   respondWithUser(res, 200, user);
 });
