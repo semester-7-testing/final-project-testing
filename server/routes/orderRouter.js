@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Order from "../models/order.js";
 import { ORDER_STATUS } from "../constants/constants.js";
-import { sendMail } from "../utils/mailSender/index.js";
+import { sendMail, getMailOptions } from "../utils/mailSender/index.js";
 import {
   createOrderBodyValidationRules,
   validate,
@@ -31,7 +31,7 @@ const router = Router();
  */
 router.post(
   "/",
-  createOrderBodyValidationRules(),
+  createOrderBodyValidationRules(), // TODO: test this with possible wrong data
   validate,
   async (req, res) => {
     try {
@@ -39,7 +39,14 @@ router.post(
         ...req.body,
         status: ORDER_STATUS.processing,
       });
-      await sendMail(req.body.email, newOrder._id, req.body.deliveryAddress);
+
+      const mailOptions = getMailOptions(
+        req.body.email,
+        newOrder._id,
+        req.body.deliveryAddress
+      );
+      sendMail(mailOptions);
+
       res.status(201).json({
         errors: [],
         data: null,
