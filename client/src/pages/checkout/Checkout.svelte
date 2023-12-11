@@ -151,6 +151,7 @@
             label="Delivery Address"
             required
             input$maxlength={30}
+            data-qa="checkout-delivery-address"
           >
             <HelperText slot="helper">Enter your delivery address</HelperText>
           </Textfield>
@@ -161,6 +162,7 @@
             label="Email Address"
             required
             input$maxlength={40}
+            data-qa="checkout-email-address"
           >
             <HelperText slot="helper"
               >Enter your email to receive order confirmation</HelperText
