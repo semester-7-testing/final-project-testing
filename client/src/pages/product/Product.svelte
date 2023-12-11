@@ -86,7 +86,7 @@
               <Label>-</Label>
             </Button>
             <span>{counter}</span>
-            <Button variant="raised" on:click={handleIncrement}>
+            <Button variant="raised" on:click={handleIncrement} data-qa="product-quantity-increment">
               <Label>+</Label>
             </Button>
           </div>
@@ -95,6 +95,7 @@
               class="add-to-cart-btn"
               on:click={handleAddToCart}
               disabled={!counter}
+              data-qa="product-add-to-cart"
             >
               <Label>ADD TO CART</Label>
             </Button>
