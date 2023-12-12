@@ -30,7 +30,10 @@ export const createOrderBodyValidationRules = () => {
   return [
     body("deliveryAddress").escape().trim(),
     body("email").isEmail().withMessage("The email is invalid"),
-    body("products").isArray().withMessage("The products should be an array"),
+    body("products")
+      .notEmpty()
+      .isArray()
+      .withMessage("The products should be an array"),
   ];
 };
 

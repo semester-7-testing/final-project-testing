@@ -9,7 +9,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import { options } from "./swagger/swaggerConfig.js";
 //routes
 import authRouter from "./routes/authRouter.js";
-import orderRouter from "./routes/orderRouter.js";
+import orderRouter from "./routes/order/orderRouter.js";
 import productRouter from "./routes/product/productRouter.js";
 import userRouter from "./routes/user/userRouter.js";
 import chatRoomRouter from "./routes/chatRoom/chatRoomRouter.js";
