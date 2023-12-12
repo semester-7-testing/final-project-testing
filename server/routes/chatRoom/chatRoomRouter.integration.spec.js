@@ -41,7 +41,7 @@ describe('chatRoomRouter', () => {
   });
 
   afterEach(async () => {
-    await ChatRoom.deleteMany();
+    await ChatRoom.deleteOne({ roomId: 'testRoomId' });
   });
 
   afterAll(async () => {

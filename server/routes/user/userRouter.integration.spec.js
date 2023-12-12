@@ -18,8 +18,8 @@ describe('User Router', () => {
   };
 
   const product = {
-    name: 'The best nike shoes',
-    description: 'You need to buy them!',
+    name: 'testName',
+    description: 'testDescription',
     price: 1,
     imgUrl: 'test://test.sk',
   };
@@ -61,9 +61,9 @@ describe('User Router', () => {
   });
 
   afterEach(async () => {
-    await User.deleteMany();
-    await Product.deleteMany();
-    await Order.deleteMany();
+    await User.deleteOne({ email: user.email });
+    await Product.deleteOne({ name: product.name });
+    await Order.deleteOne({ userId: userDoc._id });
   });
 
   afterAll(async () => {
