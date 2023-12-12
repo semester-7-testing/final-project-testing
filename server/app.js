@@ -8,10 +8,9 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { options } from './swagger/swaggerConfig.js';
 //routes
-import authRouter from './routes/authRouter.js';
+import authRouter from './routes/auth/authRouter.js';
 import orderRouter from './routes/order/orderRouter.js';
 import productRouter from './routes/product/productRouter.js';
-import userRouter from './routes/user/userRouter.js';
 import chatRoomRouter from './routes/chatRoom/chatRoomRouter.js';
 import checkoutRouter from './routes/checkout/checkoutRouter.js';
 import assetsRouter from './routes/assetsRouter.js';
