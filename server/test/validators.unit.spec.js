@@ -2,6 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import authRouter from '../routes/auth/authRouter.js';
 import User from '../models/user.js';
+import bcrypt from 'bcryptjs';
 
 const app = express();
 app.use(express.json());
@@ -25,32 +26,15 @@ jest.mock('../models/user.js', () => ({
   create: jest.fn(() => Promise.resolve(mockUser)),
 }));
 
-describe('Signup', () => {
+jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+
+describe('Validators ', () => {
   afterAll(() => {
     jest.resetAllMocks();
   });
 
-  it('it should have allow the user to sign up if the password and email are correct', async () => {
-    // ARRANGE
-    const postData = {
-      name: 'Test123',
-      email: 'test@gmail.com',
-      password: 'test1234',
-    };
-
-    // ACT
-    const response = await request(app)
-      .post('/signup')
-      .send(postData)
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
-
-    // ASSERT
-    expect(response.statusCode).toBe(201);
-  });
-
   // PARTITIONING
-  it('it should return message error if the name is less than 2 letters', async () => {
+  it('on signup it should return message error if the name is less than 2 letters', async () => {
     // ARRANGE
     const postData = {
       name: 'a',
@@ -72,7 +56,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('it should pass if the name is 2 letters', async () => {
+  it('on signup it should pass if the name is 2 letters', async () => {
     // ARRANGE
     const postData = {
       name: 'te',
@@ -91,7 +75,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the name is 3 letters', async () => {
+  it('on signup it should pass if the name is 3 letters', async () => {
     // ARRANGE
     const postData = {
       name: 'tes',
@@ -110,7 +94,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the name is 14 letters', async () => {
+  it('on signup it should pass if the name is 14 letters', async () => {
     // ARRANGE
     const postData = {
       name: 'test1234567890',
@@ -129,7 +113,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the name is 15 chars', async () => {
+  it('on signup it should pass if the name is 15 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'test12345678901',
@@ -148,7 +132,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should return an error if the name is 16 chars', async () => {
+  it('on signup it should return an error if the name is 16 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'test123456789012',
@@ -170,7 +154,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('it should return an error if the email is not valid', async () => {
+  it('on signup it should return an error if the email is not valid', async () => {
     // ARRANGE
     const postData = {
       name: 'test123',
@@ -191,7 +175,7 @@ describe('Signup', () => {
   });
 
   // PARTITIONING
-  it('it should return message error if the password is less than 5 chars', async () => {
+  it('on signup it should return message error if the password is less than 5 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'test123',
@@ -213,7 +197,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('it should pass if the password is 5 chars', async () => {
+  it('on signup it should pass if the password is 5 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'te',
@@ -232,7 +216,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the password is 6 chars', async () => {
+  it('on signup it should pass if the password is 6 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'tes',
@@ -251,7 +235,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the password is 19 letters', async () => {
+  it('on signup it should pass if the password is 19 letters', async () => {
     // ARRANGE
     const postData = {
       name: 'test1234567890',
@@ -270,7 +254,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should pass if the password is 20 chars', async () => {
+  it('on signup it should pass if the password is 20 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'test12345678901',
@@ -289,7 +273,7 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  it('it should return an error if the password is 21 chars', async () => {
+  it('on signup it should return an error if the password is 21 chars', async () => {
     // ARRANGE
     const postData = {
       name: 'test1234',
@@ -311,27 +295,131 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it('it should return an error if user already exists', async () => {
+  it('on login it should return message error if the password is less than 5 chars', async () => {
     // ARRANGE
     const postData = {
-      name: 'test1234',
+      name: 'test123',
       email: 'test@gmail.com',
-      password: 'test123',
+      password: 'test',
     };
-
-    jest
-      .spyOn(User, 'findOne')
-      .mockImplementation(() => Promise.resolve(postData));
 
     // ACT
     const response = await request(app)
-      .post('/signup')
+      .post('/login')
       .send(postData)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
     // ASSERT
-    expect(response.body.errors[0].msg).toBe('Email already in use');
+    expect(response.body.errors[0].msg).toBe(
+      'The password should be between 5-20 characters long'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  it('on login it should pass if the password is 5 chars', async () => {
+    // ARRANGE
+    const postData = {
+      name: 'te',
+      email: 'test@gmail.com',
+      password: 'test1',
+    };
+
+    jest.spyOn(User, 'findOne').mockResolvedValue(mockUser);
+
+    // ACT
+    const response = await request(app)
+      .post('/login')
+      .send(postData)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    // ASSERT
+    expect(response.statusCode).toBe(201);
+  });
+
+  it('on login it should pass if the password is 6 chars', async () => {
+    // ARRANGE
+    const postData = {
+      name: 'tes',
+      email: 'test@gmail.com',
+      password: 'test12',
+    };
+
+    jest.spyOn(User, 'findOne').mockResolvedValue(mockUser);
+
+    // ACT
+    const response = await request(app)
+      .post('/login')
+      .send(postData)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    // ASSERT
+    expect(response.statusCode).toBe(201);
+  });
+
+  it('on login it should pass if the password is 19 letters', async () => {
+    // ARRANGE
+    const postData = {
+      name: 'test1234567890',
+      email: 'test@gmail.com',
+      password: 'testPassword1234567',
+    };
+
+    jest.spyOn(User, 'findOne').mockResolvedValue(mockUser);
+
+    // ACT
+    const response = await request(app)
+      .post('/login')
+      .send(postData)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    // ASSERT
+    expect(response.statusCode).toBe(201);
+  });
+
+  it('on login it should pass if the password is 20 chars', async () => {
+    // ARRANGE
+    const postData = {
+      name: 'test12345678901',
+      email: 'test@gmail.com',
+      password: 'testPassword12345678',
+    };
+
+    jest.spyOn(User, 'findOne').mockResolvedValue(mockUser);
+
+    // ACT
+    const response = await request(app)
+      .post('/login')
+      .send(postData)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    // ASSERT
+    expect(response.statusCode).toBe(201);
+  });
+
+  it('on login it should return an error if the password is 21 chars', async () => {
+    // ARRANGE
+    const postData = {
+      name: 'test1234',
+      email: 'test@gmail.com',
+      password: 'testPassword123456789',
+    };
+
+    // ACT
+    const response = await request(app)
+      .post('/login')
+      .send(postData)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    // ASSERT
+    expect(response.body.errors[0].msg).toBe(
+      'The password should be between 5-20 characters long'
+    );
     expect(response.statusCode).toBe(400);
   });
 });

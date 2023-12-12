@@ -1,11 +1,23 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
+import { connect, disconnect } from './cypress/support/db.js';
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000",
+    baseUrl: 'http://localhost:3000',
     defaultCommandTimeout: 6000,
     viewportWidth: 1600,
     viewportHeight: 800,
     experimentalStudio: true,
+    setupNodeEvents(on, config) {
+      on('task', {
+        async clearDB() {
+          const db = await connect();
+          const users = db.collection('users');
+          await users.deleteOne({ email: 'test123@example.com' });
+          await disconnect();
+          return null;
+        },
+      });
+    },
   },
 });

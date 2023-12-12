@@ -52,7 +52,7 @@
 <main>
   <div class="wrapper">
     <h2>Login</h2>
-    <p>Do not have account yet? Sign up <Link to={SIGNUP}>here.</Link></p>
+    <p>Do not have account yet? Sign up <Link to={SIGNUP}  >here.</Link></p>
     <form on:submit={handleSubmit} data-qa="login-form">
       <Textfield
         style="width: 100%;"

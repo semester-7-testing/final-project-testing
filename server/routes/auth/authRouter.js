@@ -3,7 +3,7 @@ const router = Router();
 import bcrypt from 'bcryptjs';
 import User from '../../models/user.js';
 import { respondWithUser } from '../functions.js';
-import { checkAuth } from '../../middleware/auth.js';
+import { checkAuth, checkAdmin } from '../../middleware/auth.js';
 import {
   validate,
   singupBodyValidationRules,
@@ -49,7 +49,10 @@ router.post(
   validate,
   async (req, res) => {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
+
+    console.log('user', user);
 
     //if user does not exist in db
     if (!user) {
@@ -67,6 +70,8 @@ router.post(
       process.env.PEPER + password,
       user.password
     );
+
+    console.log('match', isMatch);
 
     //passwords does not match
     if (!isMatch) {
@@ -86,6 +91,12 @@ router.post(
 
 router.get('/me', checkAuth, async (req, res) => {
   const user = await User.findOne({ email: req.user.email });
+  respondWithUser(res, 200, user);
+});
+
+router.get('/deleteUser', checkAuth, checkAdmin, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  await user.remove();
   respondWithUser(res, 200, user);
 });
 

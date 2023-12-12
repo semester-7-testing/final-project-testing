@@ -1,17 +1,17 @@
-import { Router } from "express";
-import Order from "../../models/order.js";
-import Product from "../../models/product.js";
-import { checkAuth } from "../../middleware/auth.js";
+import { Router } from 'express';
+import Order from '../../models/order.js';
+import Product from '../../models/product.js';
+import { checkAuth } from '../../middleware/auth.js';
 
 const router = Router();
 
-router.get("/:userId/orders", checkAuth, async (req, res) => {
+router.get('/:userId/orders', checkAuth, async (req, res) => {
   try {
     if (req.params.userId !== req.user.id) {
       return res.status(401).json({
         errors: [
           {
-            msg: "Unauthorized",
+            msg: 'Unauthorized',
           },
         ],
         data: null,

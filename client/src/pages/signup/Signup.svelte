@@ -63,6 +63,7 @@
         bind:value={name}
         label="User Name"
         required
+        data-qa="userName-input"
       />
       <Textfield
         style="width: 100%;"
@@ -70,6 +71,7 @@
         bind:value={email}
         label="Email"
         required
+        data-qa="email-input"
       />
       <Textfield
         style="width: 100%;"
@@ -78,6 +80,7 @@
         label="Password"
         required
         type="password"
+        data-qa="password-input"
       />
       {#if errorMessage !== ""}
         <div class="errorMessage">{errorMessage}</div>
@@ -87,6 +90,7 @@
         type="submit"
         style="width: 100%; margin-top: 16px"
         disabled={password === "" || email === "" || name === ""}
+        data-qa="signup-button"
       >
         <Label>Sign up</Label>
       </Button>

@@ -40,7 +40,7 @@
   </Link>
   <div class="rightMenu">
     {#if $user.isAuthenticated && !$user.isLoading}
-      <div><b>{$user.name}</b></div>
+      <div><b data-qa="userName-text">{$user.name}</b></div>
       <IconButton class="material-icons" on:click={() => userMenu.setOpen(true)} data-qa="menu-account"
         >account_circle</IconButton
       >
