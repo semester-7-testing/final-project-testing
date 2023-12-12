@@ -1,11 +1,11 @@
 import { Router } from "express";
-import Order from "../models/order.js";
-import { ORDER_STATUS } from "../constants/constants.js";
-import { sendMail, getMailOptions } from "../utils/mailSender/index.js";
+import Order from "../../models/order.js";
+import { ORDER_STATUS } from "../../constants/constants.js";
+import { sendMail, getMailOptions } from "../../utils/mailSender/index.js";
 import {
   createOrderBodyValidationRules,
   validate,
-} from "../middleware/validation.js";
+} from "../../middleware/validation.js";
 
 const router = Router();
 
@@ -31,7 +31,7 @@ const router = Router();
  */
 router.post(
   "/",
-  createOrderBodyValidationRules(), // TODO: test this with possible wrong data
+  createOrderBodyValidationRules(),
   validate,
   async (req, res) => {
     try {
@@ -49,7 +49,9 @@ router.post(
 
       res.status(201).json({
         errors: [],
-        data: null,
+        data: {
+          order: newOrder,
+        },
       });
     } catch (error) {
       console.log(error);

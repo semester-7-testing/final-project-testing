@@ -59,10 +59,46 @@ describe("product router", () => {
       },
     ],
     [
+      "name null",
+      {
+        name: null,
+        description: "You need to buy them!",
+        price: 1,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "name empty string",
+      {
+        name: "",
+        description: "You need to buy them!",
+        price: 1,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
       "description undefined",
       {
         name: "The best nike shoes",
         description: undefined,
+        price: 1,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "description null",
+      {
+        name: "The best nike shoes",
+        description: null,
+        price: 1,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "description empty string",
+      {
+        name: "The best nike shoes",
+        description: "",
         price: 1,
         imgUrl: "test://test.sk",
       },
@@ -77,12 +113,48 @@ describe("product router", () => {
       },
     ],
     [
+      "price null",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: null,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "price empty string",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: "",
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
       "iumgUrl undefined",
       {
         name: "The best nike shoes",
         description: "You need to buy them!",
         price: 1,
         imgUrl: undefined,
+      },
+    ],
+    [
+      "iumgUrl null",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: 1,
+        imgUrl: null,
+      },
+    ],
+    [
+      "iumgUrl empty string",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: 1,
+        imgUrl: "",
       },
     ],
     [
