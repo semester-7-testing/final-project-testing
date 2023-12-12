@@ -18,13 +18,11 @@ describe('User Router', () => {
   };
 
   const product = {
-    name: 'The best nike shoes',
-    description: 'You need to buy them!',
+    name: 'testName',
+    description: 'testDescription',
     price: 1,
     imgUrl: 'test://test.sk',
   };
-
-  const testUserId = 'testUserId';
 
   let userDoc, productDoc, orderDoc;
 
@@ -38,11 +36,13 @@ describe('User Router', () => {
     userDoc = new User(user);
     await userDoc.save();
 
+    console.log('userDoc', userDoc._id);
+
     productDoc = new Product(product);
     await productDoc.save();
 
     const order = {
-      userId: testUserId,
+      userId: userDoc._id,
       products: [{ productId: productDoc._id, quantity: 1 }],
       deliveryAddress: 'testAddress',
       status: 'testStatus',
@@ -52,13 +52,7 @@ describe('User Router', () => {
     orderDoc = await new Order(order);
     await orderDoc.save();
 
-    const testIfUserAdded = await User.find({ email: user.email });
-    console.log('test if user was added', testIfUserAdded);
-
-    const testIfProductAdded = await Product.find({ name: product.name });
-    console.log('test if product was added', testIfProductAdded);
-
-    const testIfOrderAdded = await Order.find({ userId: testUserId });
+    const testIfOrderAdded = await Order.find({ userId: userDoc._id });
     console.log('test if order was added', testIfOrderAdded);
   }
 
@@ -67,9 +61,9 @@ describe('User Router', () => {
   });
 
   afterEach(async () => {
-    await User.deleteMany();
-    await Product.deleteMany();
-    await Order.deleteMany();
+    await User.deleteOne({ email: user.email });
+    await Product.deleteOne({ name: product.name });
+    await Order.deleteOne({ userId: userDoc._id });
   });
 
   afterAll(async () => {
@@ -103,7 +97,7 @@ describe('User Router', () => {
       const testUserTokenPayload = {
         email: user.email,
         isAdmin: user.isAdmin,
-        id: testUserId,
+        id: userDoc._id,
       };
 
       const token = JWT.sign(testUserTokenPayload, process.env.JWT_SECRET, {
@@ -113,7 +107,7 @@ describe('User Router', () => {
       const response = await request(
         `http://localhost:${process.env.SERVER_PORT}`
       )
-        .get(`/api/users/testUserId/orders`)
+        .get(`/api/users/${userDoc._id}/orders`)
         .set('Authorization', `Bearer ${token}`);
 
       console.log(await response.body.data);
