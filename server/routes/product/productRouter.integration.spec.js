@@ -47,7 +47,10 @@ describe("product router", () => {
 
     expect(response.statusCode).toBe(403);
   });
+  // did not create a clean up function, as data in mongo gets flushed out in the docker on restart
+});
 
+describe("product router validations", () => {
   it.each([
     [
       "name undefined",
@@ -184,6 +187,4 @@ describe("product router", () => {
       expect(response.statusCode).toBe(400);
     }
   );
-
-  // did not create a clean up function, as data in mongo gets flushed out in the docker on restart
 });

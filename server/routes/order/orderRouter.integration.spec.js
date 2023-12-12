@@ -1,30 +1,60 @@
 import request from "supertest";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
+import Product from "../../models/product.js";
+import Order from "../../models/order.js";
 
 dotenv.config();
 
 describe("order router", () => {
-  // TODO: finish  this test, you might need to create products with the object ids so you can reference them here
-  // further more test that email is email is being called
-  // in cypress test also that you will reveive an email and also test that a wrong payment or not enough found will resolvei in a problem on frontend
-  // in cypress also add the check for the email
+  let productDoc;
 
-  //   it("should create an order and return 201 status", async () => {
+  const seedDb = async () => {
+    productDoc = await Product.create({
+      name: "The best nike shoes",
+      description: "You need to buy them!",
+      price: 1,
+      imgUrl: "test://test.sk",
+    });
+  };
 
-  //     const response = await request(
-  //       `http://localhost:${process.env.SERVER_PORT}`
-  //     )
-  //       .post("/api/products")
-  //       .send(product)
-  //       .set("Authorization", `Bearer ${token}`);
+  beforeAll(() => {
+    mongoose.set("strictQuery", true).connect(process.env.MONGO_URI);
+  });
 
-  //     expect(response.statusCode).toBe(201);
-  //     expect(response.body).toEqual({
-  //       errors: [],
-  //       data: null,
-  //     });
-  //   });
+  beforeEach(async () => {
+    await seedDb();
+  });
 
+  afterEach(async () => {
+    await Product.deleteOne({ _id: productDoc._id });
+    await Order.deleteMany();
+  });
+
+  afterAll(async () => {
+    await mongoose.disconnect();
+  });
+
+  it("should create an order and return 201 status", async () => {
+    const order = {
+      userId: null,
+      products: [{ productId: productDoc._id, quantity: 1 }],
+      deliveryAddress: "Test address 6",
+      email: "test@test.sk",
+    };
+
+    const response = await request(
+      `http://localhost:${process.env.SERVER_PORT}`
+    )
+      .post("/api/order")
+      .send(order);
+
+    expect(response.statusCode).toBe(201);
+    expect(response.body.data.order._id).toEqual(expect.any(String));
+  });
+});
+
+describe("order router validations", () => {
   it.each([
     [
       "products undefined",
@@ -119,6 +149,4 @@ describe("order router", () => {
       expect(response.statusCode).toBe(400);
     }
   );
-
-  // did not create a clean up function, as data in mongo gets flushed out in the docker on restart
 });
