@@ -5,7 +5,3 @@ Cypress.Commands.addQuery(
     return () => getFn();
   }
 );
-
-Cypress.Commands.add('clearDB', () => {
-  cy.task('clearDB');
-});

@@ -14,7 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands/selectors.js";
+import './commands/selectors.js';
+import './commands/clearDB.js';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
