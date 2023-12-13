@@ -25,6 +25,7 @@ describe('User Router', () => {
   };
 
   let userDoc, productDoc, orderDoc;
+  let createdUser;
 
   beforeAll(() => {
     mongoose
@@ -36,24 +37,21 @@ describe('User Router', () => {
     userDoc = new User(user);
     await userDoc.save();
 
-    console.log('userDoc', userDoc._id);
+    createdUser = await User.findOne({ email: user.email });
 
     productDoc = new Product(product);
     await productDoc.save();
 
     const order = {
-      userId: userDoc._id,
+      userId: createdUser._id,
       products: [{ productId: productDoc._id, quantity: 1 }],
       deliveryAddress: 'testAddress',
       status: 'testStatus',
-      email: userDoc.email,
+      email: user.email,
     };
 
     orderDoc = await new Order(order);
     await orderDoc.save();
-
-    const testIfOrderAdded = await Order.find({ userId: userDoc._id });
-    console.log('test if order was added', testIfOrderAdded);
   }
 
   beforeEach(async () => {
@@ -63,7 +61,7 @@ describe('User Router', () => {
   afterEach(async () => {
     await User.deleteOne({ email: user.email });
     await Product.deleteOne({ name: product.name });
-    await Order.deleteOne({ userId: userDoc._id });
+    await Order.deleteOne({ userId: createdUser._id });
   });
 
   afterAll(async () => {
@@ -97,7 +95,7 @@ describe('User Router', () => {
       const testUserTokenPayload = {
         email: user.email,
         isAdmin: user.isAdmin,
-        id: userDoc._id,
+        id: createdUser._id,
       };
 
       const token = JWT.sign(testUserTokenPayload, process.env.JWT_SECRET, {
@@ -107,11 +105,23 @@ describe('User Router', () => {
       const response = await request(
         `http://localhost:${process.env.SERVER_PORT}`
       )
-        .get(`/api/users/${userDoc._id}/orders`)
+        .get(`/api/users/${createdUser._id}/orders`)
         .set('Authorization', `Bearer ${token}`);
 
-      console.log(await response.body.data);
+      console.log(response.body.data.orders[0]);
       expect(response.statusCode).toBe(200);
+      expect(response.body.data.orders).toEqual([
+        [
+          {
+            productId: productDoc._id.toString(),
+            imgUrl: product.imgUrl,
+            quantity: 1,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+          },
+        ],
+      ]);
     });
   });
 });
