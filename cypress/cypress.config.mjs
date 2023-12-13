@@ -22,18 +22,23 @@ export default defineConfig({
           const db = await connect();
           const ordersModel = db.collection('orders');
           const userModel = db.collection('users');
+          const productModel = db.collection('products');
+
+          const product = await productModel.findOne();
+
           const user = await userModel.findOne({
             email: USERS.commonUser.email,
           });
 
           console.log('userId', user);
-          const userId = user._id;
+          const userId = user._id.toString();
+          let productId = product._id;
 
           const order = {
             userId: userId,
             products: [
               {
-                productId: '123',
+                productId: productId,
                 quantity: 2,
               },
             ],

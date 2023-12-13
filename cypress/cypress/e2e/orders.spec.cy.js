@@ -21,6 +21,6 @@ describe('view logged in user orders', () => {
 
     cy.getBySelector('menu-account').click();
     cy.getBySelector('menu-account-my-orders').click();
-    // cy.getBySelector('orders-list').should('be.visible');
+    cy.getBySelector('orders-list').should('be.visible');
   });
 });

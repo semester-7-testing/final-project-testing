@@ -18,6 +18,7 @@ router.get('/:userId/orders', checkAuth, async (req, res) => {
       });
     }
 
+    console.log(await getAllUsersOrders(req.params.userId));
     res.status(200).json({
       errors: [],
       data: {
@@ -35,6 +36,7 @@ router.get('/:userId/orders', checkAuth, async (req, res) => {
 
 const getAllUsersOrders = async (userId) => {
   let orders = await Order.find({ userId });
+  console.log('userId', userId);
   if (orders.length === 0) return orders;
   const promises = orders.map(async (order) => {
     const promises = order.products.map(async ({ productId, quantity }) => {

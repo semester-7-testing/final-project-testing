@@ -52,8 +52,6 @@ router.post(
 
     const user = await User.findOne({ email });
 
-    console.log('user', user);
-
     //if user does not exist in db
     if (!user) {
       return res.status(400).json({
@@ -70,8 +68,6 @@ router.post(
       process.env.PEPER + password,
       user.password
     );
-
-    console.log('match', isMatch);
 
     //passwords does not match
     if (!isMatch) {
