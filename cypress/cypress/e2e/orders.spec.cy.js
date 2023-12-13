@@ -1,7 +1,12 @@
 import { USERS, SERVER_API_URL } from '../../constants';
+import { generateTokenForCommonUser } from '../utils/generate-jwt-token';
 
 describe('view logged in user orders', () => {
   beforeEach(() => {
+    cy.task('seedDb');
+  });
+
+  it('orders list should be visible', () => {
     cy.visit('');
 
     cy.getBySelector('login-button').click();
@@ -14,39 +19,6 @@ describe('view logged in user orders', () => {
 
     cy.getBySelector('login-submit').click();
 
-    cy.wait(1000);
-    const token = sessionStorage.getItem('token');
-
-    const requestBody = {
-      userId: 'testUserId',
-      products: [
-        {
-          productId: '123',
-          quantity: 2,
-        },
-      ],
-      deliveryAddress: 'testAddress',
-      status: 'testStatus',
-      email: USERS.commonUser.email,
-    };
-
-    cy.request({
-      method: 'POST',
-      url: `${SERVER_API_URL}/order`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: requestBody,
-    }).then((response) => {
-      console.log(response);
-      return 0;
-    });
-
-    cy.wait(3000);
-  });
-
-  it('orders list should be visible', () => {
     cy.getBySelector('menu-account').click();
     cy.getBySelector('menu-account-my-orders').click();
     // cy.getBySelector('orders-list').should('be.visible');
