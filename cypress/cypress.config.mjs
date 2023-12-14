@@ -1,20 +1,25 @@
 import { defineConfig } from 'cypress';
 import { connect, disconnect } from './cypress/support/db.js';
 import { USERS } from './constants.js';
+import { defineConfig } from "cypress";
+import {
+  getLastEmail,
+  deleteAllEmails,
+} from "./cypress/plugins/email-inbox.js";
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: "http://localhost:3000",
     defaultCommandTimeout: 6000,
     viewportWidth: 1600,
     viewportHeight: 800,
     experimentalStudio: true,
     setupNodeEvents(on, config) {
-      on('task', {
+      on("task", {
         async clearDB() {
           const db = await connect();
-          const users = db.collection('users');
-          await users.deleteOne({ email: 'test123@example.com' });
+          const users = db.collection("users");
+          await users.deleteOne({ email: "test123@example.com" });
           await disconnect();
           return null;
         },
@@ -51,7 +56,14 @@ export default defineConfig({
           await disconnect();
           return null;
         },
+        async "inbox:getLastEmail"({ inboxUser, inboxPassword }) {
+          return await getLastEmail(inboxUser, inboxPassword);
+        },
+        async "inbox:deleteAllEmails"({ inboxUser, inboxPassword }) {
+          return await deleteAllEmails(inboxUser, inboxPassword);
+        },
       });
     },
   },
+  watchForFileChanges: false,
 });
