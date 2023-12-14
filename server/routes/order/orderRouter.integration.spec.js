@@ -111,6 +111,24 @@ describe("order router validations", () => {
       },
     ],
     [
+      "delivery address legth less than 5",
+      {
+        userId: "1234",
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "1234",
+        email: "test@test.sk",
+      },
+    ],
+    [
+      "delivery address legth less than 5 with empty spaces",
+      {
+        userId: "1234",
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "1234 ",
+        email: "test@test.sk",
+      },
+    ],
+    [
       "email undefined",
       {
         userId: null,
@@ -135,6 +153,51 @@ describe("order router validations", () => {
         products: [{ productId: "123", quantity: 1 }],
         deliveryAddress: "Test address 6",
         email: "",
+      },
+    ],
+    [
+      "invalid email format",
+      {
+        userId: null,
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "Test address 6",
+        email: "em@",
+      },
+    ],
+    [
+      "invalid email format",
+      {
+        userId: null,
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "Test address 6",
+        email: "em@a",
+      },
+    ],
+    [
+      "invalid email format",
+      {
+        userId: null,
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "Test address 6",
+        email: "@a.sk",
+      },
+    ],
+    [
+      "invalid email format",
+      {
+        userId: null,
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "Test address 6",
+        email: "aa.sk",
+      },
+    ],
+    [
+      "invalid email format",
+      {
+        userId: null,
+        products: [{ productId: "123", quantity: 1 }],
+        deliveryAddress: "Test address 6",
+        email: "@",
       },
     ],
   ])(

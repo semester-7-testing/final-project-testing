@@ -8,7 +8,7 @@ describe("product router", () => {
   const product = {
     name: "The best nike shoes",
     description: "You need to buy them!",
-    price: 1,
+    price: 40,
     imgUrl: "test://test.sk",
   };
 
@@ -80,6 +80,15 @@ describe("product router validations", () => {
       },
     ],
     [
+      "name too short",
+      {
+        name: "a",
+        description: "You need to buy them!",
+        price: 1,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
       "description undefined",
       {
         name: "The best nike shoes",
@@ -130,6 +139,33 @@ describe("product router validations", () => {
         name: "The best nike shoes",
         description: "You need to buy them!",
         price: "",
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "price under 40",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: 39.99,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "price under 40",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: 15,
+        imgUrl: "test://test.sk",
+      },
+    ],
+    [
+      "price under 40",
+      {
+        name: "The best nike shoes",
+        description: "You need to buy them!",
+        price: 0,
         imgUrl: "test://test.sk",
       },
     ],
