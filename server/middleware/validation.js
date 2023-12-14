@@ -47,8 +47,19 @@ export const createProductBodyValidationRules = () => {
 };
 
 export const createCheckoutBodyValidationRules = () => {
+  const minAmount = 40;
   return [
-    body("amount").isNumeric().withMessage("The amount should be a number"),
+    body("amount")
+      .isNumeric()
+      .withMessage("The amount should be a number")
+      .custom((value) => {
+        if (value < minAmount) {
+          throw new Error(
+            `The amount should be more than or equal to ${minAmount}`
+          );
+        }
+        return true;
+      }),
   ];
 };
 

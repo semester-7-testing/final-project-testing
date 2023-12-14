@@ -4,30 +4,38 @@ import dotenv from "dotenv";
 dotenv.config();
 
 describe("checkout", () => {
-  it("should return new stripe client session when request body is valid", async () => {
-    const requestBody = {
-      amount: 1000,
-    };
+  it.each([{ amount: 40 }, { amount: 80 }])(
+    "should return new stripe client session when request body is valid",
+    async (requestBody) => {
+      const response = await request(
+        `http://localhost:${process.env.SERVER_PORT}`
+      )
+        .post("/api/checkout")
+        .send(requestBody);
 
-    const response = await request(
-      `http://localhost:${process.env.SERVER_PORT}`
-    )
-      .post("/api/checkout")
-      .send(requestBody);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.clientSecret).not.toBe(null);
+    }
+  );
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body.data.clientSecret).not.toBe(null);
-  });
+  it.each([
+    { amount: 39.99 },
+    { amount: 39.98 },
+    { amount: 0 },
+    { amount: -15 },
+    { amount: null },
+    { amount: undefined },
+    { amount: "" },
+  ])(
+    "should return bad request, if the request body is not valid",
+    async (requestBody) => {
+      const response = await request(
+        `http://localhost:${process.env.SERVER_PORT}`
+      )
+        .post("/api/checkout")
+        .send(requestBody);
 
-  it("should return bad request, if the request body is not valid", async () => {
-    const requestBody = {};
-
-    const response = await request(
-      `http://localhost:${process.env.SERVER_PORT}`
-    )
-      .post("/api/checkout")
-      .send(requestBody);
-
-    expect(response.statusCode).toBe(400);
-  });
+      expect(response.statusCode).toBe(400);
+    }
+  );
 });
