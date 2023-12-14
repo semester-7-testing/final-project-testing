@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "test:unit": "jest \".*\\.unit\\.spec\\.js$\"",
-    "test:integration": "jest \".*\\.integration\\.spec\\.js$\""
+    "test:integration": "jest \".*\\.integration\\.spec\\.js$\"",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
