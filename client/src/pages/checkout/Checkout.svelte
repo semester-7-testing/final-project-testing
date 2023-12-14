@@ -127,13 +127,15 @@
               <Button
                 variant="raised"
                 on:click={() => handleDecrement(productId, quantity)}
+                data-qa="product-quantity-decrement"
               >
                 <Label>-</Label>
               </Button>
-              <span>{quantity}</span>
+              <span data-qa="product-quantity-counter">{quantity}</span>
               <Button
                 variant="raised"
                 on:click={() => handleIncrement(productId, quantity)}
+                data-qa="product-quantity-increment"
               >
                 <Label>+</Label>
               </Button>
@@ -141,7 +143,7 @@
           </div>
         {/each}
       </div>
-      <h3 class="subtotal">Subtotal: {subTotal} €</h3>
+      <h3 class="subtotal" data-qa="checkout-subtotal">Subtotal: {subTotal} €</h3>
       {#if stripe && clientSecret}
         <form on:submit={handleSubmit}>
           <Textfield
@@ -168,20 +170,23 @@
               >Enter your email to receive order confirmation</HelperText
             >
           </Textfield>
-          <PaymentElement
-            {stripe}
-            {clientSecret}
-            bind:elements
-            theme="flat"
-            labels="floating"
-            variables={{ colorPrimary: "#7c4dff" }}
-            rules={{ ".Input": { border: "solid 1px #0002" } }}
-          />
+          <span data-qa="payment-gateway">
+            <PaymentElement
+              {stripe}
+              {clientSecret}
+              bind:elements
+              theme="flat"
+              labels="floating"
+              variables={{ colorPrimary: "#7c4dff" }}
+              rules={{ ".Input": { border: "solid 1px #0002" } }}
+            />
+          </span>
           <Button
             variant="raised"
             type="submit"
             style="width: 100%; margin-top: 16px"
             disabled={isProcessingOrder}
+            data-qa="checkout-pay-button"
           >
             <Label>Pay</Label>
           </Button>

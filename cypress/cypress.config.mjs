@@ -1,7 +1,6 @@
-import { defineConfig } from 'cypress';
-import { connect, disconnect } from './cypress/support/db.js';
-import { USERS } from './constants.js';
 import { defineConfig } from "cypress";
+import { connect, disconnect } from "./cypress/support/db.js";
+import { USERS } from "./constants.js";
 import {
   getLastEmail,
   deleteAllEmails,
@@ -25,9 +24,9 @@ export default defineConfig({
         },
         async seedDb() {
           const db = await connect();
-          const ordersModel = db.collection('orders');
-          const userModel = db.collection('users');
-          const productModel = db.collection('products');
+          const ordersModel = db.collection("orders");
+          const userModel = db.collection("users");
+          const productModel = db.collection("products");
 
           const product = await productModel.findOne();
 
@@ -35,7 +34,7 @@ export default defineConfig({
             email: USERS.commonUser.email,
           });
 
-          console.log('userId', user);
+          console.log("userId", user);
           const userId = user._id.toString();
           let productId = product._id;
 
@@ -47,8 +46,8 @@ export default defineConfig({
                 quantity: 2,
               },
             ],
-            deliveryAddress: 'testAddress',
-            status: 'testStatus',
+            deliveryAddress: "testAddress",
+            status: "testStatus",
             email: USERS.commonUser.email,
           };
 

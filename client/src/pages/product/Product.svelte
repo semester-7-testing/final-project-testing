@@ -82,10 +82,10 @@
       <div class="bottom">
         <div class="counterWrapper">
           <div class="counter">
-            <Button variant="raised" on:click={handleDecrement}>
+            <Button variant="raised" on:click={handleDecrement} data-qa="product-quantity-decrement">
               <Label>-</Label>
             </Button>
-            <span>{counter}</span>
+            <span data-qa="product-quantity-counter">{counter}</span>
             <Button variant="raised" on:click={handleIncrement} data-qa="product-quantity-increment">
               <Label>+</Label>
             </Button>
@@ -107,7 +107,7 @@
     {/if}
   </div>
 </main>
-<Snackbar bind:this={snackbarWithClose} class="success">
+<Snackbar bind:this={snackbarWithClose} class="success" data-qa="product-added-to-cart-snackbar">
   <SnackLabel>Product added to cart</SnackLabel>
   <Actions>
     <IconButton class="material-icons" title="Dismiss">close</IconButton>

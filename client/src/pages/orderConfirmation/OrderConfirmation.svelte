@@ -8,9 +8,9 @@
 
 <main>
   <div class="wrapper">
-    <h2 class="title">Payment successful!</h2>
+    <h2 class="title" data-qa="payment-successful-title">Payment successful!</h2>
     <h4>Thank you for your order!</h4>
-    <Button on:click={() => navigate(HOME, { replace: true })}
+    <Button on:click={() => navigate(HOME, { replace: true })} data-qa="go-to-home-button"
       >Go To Home Page</Button
     >
   </div>
