@@ -12,6 +12,8 @@ describe('chatRoomRouter', () => {
   let chatRoomDoc;
   let adminUserDoc;
   let nonAdminUserDoc;
+  let createdNonAdminUser;
+  let createdAdminUser;
 
   const adminUser = {
     name: 'testName',
@@ -31,12 +33,20 @@ describe('chatRoomRouter', () => {
     adminUserDoc = new User(adminUser);
     await adminUserDoc.save();
 
+    createdAdminUser = await User.findOne({ email: adminUser.email });
+
+    console.log('createdAdminUser', createdAdminUser);
+
     nonAdminUserDoc = new User(nonAdminUser);
     await nonAdminUserDoc.save();
 
+    createdNonAdminUser = await User.findOne({ email: nonAdminUser.email });
+
+    console.log('createdNonAdminUser', createdNonAdminUser);
+
     chatRoom = {
       category: 'testCategory',
-      userId: nonAdminUserDoc._id,
+      userId: createdNonAdminUser._id,
       socketId: 'testSocketId',
       roomId: 'testRoomId',
       hasUnreadMessages: true,
@@ -64,9 +74,9 @@ describe('chatRoomRouter', () => {
   });
 
   afterEach(async () => {
-    await ChatRoom.deleteOne({ roomId: chatRoom.roomId });
-    await User.deleteOne({ email: adminUser.email });
-    await User.deleteOne({ email: nonAdminUser.email });
+    // await ChatRoom.deleteOne({ roomId: chatRoom.roomId });
+    // await User.deleteOne({ email: adminUser.email });
+    // await User.deleteOne({ email: nonAdminUser.email });
   });
 
   afterAll(async () => {
@@ -78,7 +88,7 @@ describe('chatRoomRouter', () => {
       const nonAdminUserPayload = {
         email: nonAdminUser.email,
         isAdmin: false,
-        userId: nonAdminUserDoc._id,
+        userId: createdNonAdminUser._id,
       };
       const token = JWT.sign(nonAdminUserPayload, process.env.JWT_SECRET, {
         expiresIn: '7d',
@@ -97,7 +107,7 @@ describe('chatRoomRouter', () => {
       const adminUserPayload = {
         email: adminUser.email,
         isAdmin: true,
-        userId: adminUserDoc._id,
+        userId: createdAdminUser._id,
       };
 
       const token = JWT.sign(adminUserPayload, process.env.JWT_SECRET, {
@@ -128,7 +138,7 @@ describe('chatRoomRouter', () => {
           ],
           roomId: chatRoom.roomId,
           socketId: chatRoom.socketId,
-          userId: nonAdminUserDoc._id.toString(),
+          userId: createdNonAdminUser._id.toString(),
           userName: adminUser.name,
         },
       ]);
