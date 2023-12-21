@@ -20,11 +20,11 @@ jobs:
 
       - name: Install server dependencies
         run: npm ci
-        working-directory: ${{ env.WORKING_DIRECTORY }}
+        working-directory: ${{ env.SERVER_DIRECTORY }}
 
       - name: Run unit tests
         run: npm run test:unit
-        working-directory: ${{ env.WORKING_DIRECTORY }}
+        working-directory: ${{ env.SERVER_DIRECTORY }}
 
       # - name: Setup Docker
       #   uses: docker-practice/actions-setup-docker@master
