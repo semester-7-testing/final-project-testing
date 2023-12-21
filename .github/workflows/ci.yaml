@@ -28,11 +28,11 @@ jobs:
         run: npm run test:unit
         working-directory: ${{ env.SERVER_DIRECTORY }}
 
-      # - name: Setup Docker
-      #   uses: docker-practice/actions-setup-docker@master
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@master
 
-      # - name: Docker Compose up
-      #   run: docker-compose up -d
+      - name: Docker Compose up
+        run: docker-compose up -d
 
       # - name: Run integration tests
       #   run: npm run test:integration
