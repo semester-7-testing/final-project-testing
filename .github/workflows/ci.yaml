@@ -15,24 +15,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: "16"
-
-      # - name: Install server dependencies
-      #   run: npm ci
-      #   working-directory: ${{ env.SERVER_DIRECTORY }}
-
-      # - name: Run unit tests
-      #   run: npm run test:unit
-      #   working-directory: ${{ env.SERVER_DIRECTORY }}
-
       - name: Setup docker
         uses: docker-practice/actions-setup-docker@master
 
       - name: Docker compose
         run: docker-compose up -d
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install server dependencies
+        run: npm ci
+        working-directory: ${{ env.SERVER_DIRECTORY }}
+
+      - name: Run unit tests
+        run: npm run test:unit
+        working-directory: ${{ env.SERVER_DIRECTORY }}
 
       - name: Run integration tests
         run: npm run test:integration
