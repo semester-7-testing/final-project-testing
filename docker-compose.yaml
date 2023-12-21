@@ -68,8 +68,8 @@ services:
         ]);
         db.users.deleteMany({});
         db.users.insertMany([
-          {'name':'admin','email':'admin@test.sk','password': '$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':true},
-          {'name':'test','email':'test@test.sk','password': '$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':false}
+          {'name':'admin','email':'admin@test.sk','password': '$$2a$$10$$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':true},
+          {'name':'test','email':'test@test.sk','password': '$$2a$$10$$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':false}
         ]);
         EOF
       "

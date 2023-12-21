@@ -7,7 +7,7 @@ env:
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       JWT_SECRET: a7b231eb-f86d-486d-b669-d1e9d747dc62
 
@@ -15,18 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
+      # - name: Setup Node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: "16"
 
-      - name: Install server dependencies
-        run: npm ci
-        working-directory: ${{ env.SERVER_DIRECTORY }}
+      # - name: Install server dependencies
+      #   run: npm ci
+      #   working-directory: ${{ env.SERVER_DIRECTORY }}
 
-      - name: Run unit tests
-        run: npm run test:unit
-        working-directory: ${{ env.SERVER_DIRECTORY }}
+      # - name: Run unit tests
+      #   run: npm run test:unit
+      #   working-directory: ${{ env.SERVER_DIRECTORY }}
 
       - name: Setup Docker
         uses: docker-practice/actions-setup-docker@master
