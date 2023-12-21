@@ -22,54 +22,54 @@ services:
           echo 'waiting for mongodb...'
         done
         mongo --host db:27017 <<-'EOF'
-        db = (new Mongo(\"db:27017\")).getDB(\"test\");
+        db = (new Mongo('db:27017')).getDB('test');
         config = {
-        \"_id\" : \"my-mongo-set\",
-        \"members\" : [
+        '_id' : 'my-mongo-set',
+        'members' : [
           {
-            \"_id\" : 0,
-            \"host\" : \"db:27017\"
+            '_id' : 0,
+            'host' : 'db:27017'
           }
         ]
         };
         rs.initiate(config);
-        while (rs.status().hasOwnProperty(\"myState\") && rs.status().myState != 1) {
-          print(\"Waiting for primary...\");
+        while (rs.status().hasOwnProperty('myState') && rs.status().myState != 1) {
+          print('Waiting for primary...');
           sleep(1000);
         }
         sleep(5000);
         // Seeding data
         db.products.deleteMany({});
         db.products.insertMany([
-          {\"name\":\"ADIDAS ULTRABOOST\",\"imgUrl\":\"https://static.footshop.com/564712/132937.jpg\",\"price\":230,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC SLIP-ON\",\"imgUrl\":\"https://static.footshop.com/193606/36917.jpg\",\"price\":120,\"description\":\"very nice shoes\"},
-          {\"name\":\"Nike Air Max\",\"imgUrl\":\"https://releases-static.footshop.com/images/raffle/2/2d/2d2/2d2ac455e39325a5e12e2962db42f176.jpeg\",\"price\":870,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC SLIP-ON\",\"imgUrl\":\"https://static.footshop.com/570691/140959.jpg\",\"price\":349,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE CHUCK TAYLOR\",\"imgUrl\":\"https://static.footshop.com/424048/1783.jpg\",\"price\":120,\"description\":\"very nice shoes\"},
-          {\"name\":\"ADIDAS ULTRABOOST\",\"imgUrl\":\"https://static.footshop.com/641566/192706.jpg\",\"price\":650,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE ALL S\",\"imgUrl\":\"https://static.footshop.com/424993/1526.jpg\",\"price\":237,\"description\":\"very nice shoes\"},
-          {\"name\":\"adidas Yeezy\",\"imgUrl\":\"https://releases-static.footshop.com/images/raffle/b/be/bef/bef34aa65a4e19c9662448d3d2db3042.jpeg\",\"price\":970,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE CHUCK\",\"imgUrl\":\"https://static.footshop.com/622306/57403.jpg\",\"price\":340,\"description\":\"very nice shoes\"},
-          {\"name\":\"ONVERSE CHUCK\",\"imgUrl\":\"https://static.footshop.com/628054/185560.jpg\",\"price\":240,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC S\",\"imgUrl\":\"https://static.footshop.com/260349/188.jpg\",\"price\":250,\"description\":\"very nice shoes\"},
-          {\"name\":\"WEB DNA\",\"imgUrl\":\"https://static.footshop.com/729979/193546.jpg\",\"price\":230,\"description\":\"very nice shoes\"},
-          {\"name\":\"ADIDAS ULTRABOOST\",\"imgUrl\":\"https://static.footshop.com/564712/132937.jpg\",\"price\":230,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC SLIP-ON\",\"imgUrl\":\"https://static.footshop.com/193606/36917.jpg\",\"price\":120,\"description\":\"very nice shoes\"},
-          {\"name\":\"Nike Air Max\",\"imgUrl\":\"https://releases-static.footshop.com/images/raffle/2/2d/2d2/2d2ac455e39325a5e12e2962db42f176.jpeg\",\"price\":870,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC SLIP-ON\",\"imgUrl\":\"https://static.footshop.com/570691/140959.jpg\",\"price\":349,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE CHUCK TAYLOR\",\"imgUrl\":\"https://static.footshop.com/424048/1783.jpg\",\"price\":120,\"description\":\"very nice shoes\"},
-          {\"name\":\"ADIDAS ULTRABOOST\",\"imgUrl\":\"https://static.footshop.com/641566/192706.jpg\",\"price\":650,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE ALL S\",\"imgUrl\":\"https://static.footshop.com/424993/1526.jpg\",\"price\":237,\"description\":\"very nice shoes\"},
-          {\"name\":\"adidas Yeezy\",\"imgUrl\":\"https://releases-static.footshop.com/images/raffle/b/be/bef/bef34aa65a4e19c9662448d3d2db3042.jpeg\",\"price\":970,\"description\":\"very nice shoes\"},
-          {\"name\":\"CONVERSE CHUCK\",\"imgUrl\":\"https://static.footshop.com/622306/57403.jpg\",\"price\":340,\"description\":\"very nice shoes\"},
-          {\"name\":\"ONVERSE CHUCK\",\"imgUrl\":\"https://static.footshop.com/628054/185560.jpg\",\"price\":240,\"description\":\"very nice shoes\"},
-          {\"name\":\"VANS CLASSIC S\",\"imgUrl\":\"https://static.footshop.com/260349/188.jpg\",\"price\":250,\"description\":\"very nice shoes\"},
-          {\"name\":\"WEB DNA\",\"imgUrl\":\"https://static.footshop.com/729979/193546.jpg\",\"price\":230,\"description\":\"very nice shoes\"}
+          {'name':'ADIDAS ULTRABOOST','imgUrl':'https://static.footshop.com/564712/132937.jpg','price':230,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC SLIP-ON','imgUrl':'https://static.footshop.com/193606/36917.jpg','price':120,'description':'very nice shoes'},
+          {'name':'Nike Air Max','imgUrl':'https://releases-static.footshop.com/images/raffle/2/2d/2d2/2d2ac455e39325a5e12e2962db42f176.jpeg','price':870,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC SLIP-ON','imgUrl':'https://static.footshop.com/570691/140959.jpg','price':349,'description':'very nice shoes'},
+          {'name':'CONVERSE CHUCK TAYLOR','imgUrl':'https://static.footshop.com/424048/1783.jpg','price':120,'description':'very nice shoes'},
+          {'name':'ADIDAS ULTRABOOST','imgUrl':'https://static.footshop.com/641566/192706.jpg','price':650,'description':'very nice shoes'},
+          {'name':'CONVERSE ALL S','imgUrl':'https://static.footshop.com/424993/1526.jpg','price':237,'description':'very nice shoes'},
+          {'name':'adidas Yeezy','imgUrl':'https://releases-static.footshop.com/images/raffle/b/be/bef/bef34aa65a4e19c9662448d3d2db3042.jpeg','price':970,'description':'very nice shoes'},
+          {'name':'CONVERSE CHUCK','imgUrl':'https://static.footshop.com/622306/57403.jpg','price':340,'description':'very nice shoes'},
+          {'name':'ONVERSE CHUCK','imgUrl':'https://static.footshop.com/628054/185560.jpg','price':240,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC S','imgUrl':'https://static.footshop.com/260349/188.jpg','price':250,'description':'very nice shoes'},
+          {'name':'WEB DNA','imgUrl':'https://static.footshop.com/729979/193546.jpg','price':230,'description':'very nice shoes'},
+          {'name':'ADIDAS ULTRABOOST','imgUrl':'https://static.footshop.com/564712/132937.jpg','price':230,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC SLIP-ON','imgUrl':'https://static.footshop.com/193606/36917.jpg','price':120,'description':'very nice shoes'},
+          {'name':'Nike Air Max','imgUrl':'https://releases-static.footshop.com/images/raffle/2/2d/2d2/2d2ac455e39325a5e12e2962db42f176.jpeg','price':870,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC SLIP-ON','imgUrl':'https://static.footshop.com/570691/140959.jpg','price':349,'description':'very nice shoes'},
+          {'name':'CONVERSE CHUCK TAYLOR','imgUrl':'https://static.footshop.com/424048/1783.jpg','price':120,'description':'very nice shoes'},
+          {'name':'ADIDAS ULTRABOOST','imgUrl':'https://static.footshop.com/641566/192706.jpg','price':650,'description':'very nice shoes'},
+          {'name':'CONVERSE ALL S','imgUrl':'https://static.footshop.com/424993/1526.jpg','price':237,'description':'very nice shoes'},
+          {'name':'adidas Yeezy','imgUrl':'https://releases-static.footshop.com/images/raffle/b/be/bef/bef34aa65a4e19c9662448d3d2db3042.jpeg','price':970,'description':'very nice shoes'},
+          {'name':'CONVERSE CHUCK','imgUrl':'https://static.footshop.com/622306/57403.jpg','price':340,'description':'very nice shoes'},
+          {'name':'ONVERSE CHUCK','imgUrl':'https://static.footshop.com/628054/185560.jpg','price':240,'description':'very nice shoes'},
+          {'name':'VANS CLASSIC S','imgUrl':'https://static.footshop.com/260349/188.jpg','price':250,'description':'very nice shoes'},
+          {'name':'WEB DNA','imgUrl':'https://static.footshop.com/729979/193546.jpg','price':230,'description':'very nice shoes'}
         ]);
         db.users.deleteMany({});
         db.users.insertMany([
-          {\"name\":\"admin\",\"email\":\"admin@test.sk\",\"password\": \"$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG\",\"isAdmin\":true},
-          {\"name\":\"test\",\"email\":\"test@test.sk\",\"password\": \"$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG\",\"isAdmin\":false}
+          {'name':'admin','email':'admin@test.sk','password': '$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':true},
+          {'name':'test','email':'test@test.sk','password': '$2a$10$8SmSBGfnbt2eiEmlwnM9OO5pyhFkNsKyQH22MKvoloNwmxwSUfdNG','isAdmin':false}
         ]);
         EOF
       "
