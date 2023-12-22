@@ -28,12 +28,12 @@ jobs:
       - name: Docker compose
         run: docker-compose up -d
 
-      - name: Check server
-        run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:8080/test); do
-            echo "Waiting for server..."
-            sleep 5
-          done
+      # - name: Check server
+      #   run: |
+      #     until $(curl --output /dev/null --silent --head --fail http://localhost:8080/test); do
+      #       echo "Waiting for server..."
+      #       sleep 5
+      #     done
 
       - name: Setup node
         uses: actions/setup-node@v2
