@@ -1,12 +1,11 @@
-import request from 'supertest';
-import JWT from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import request from "supertest";
+import JWT from "jsonwebtoken";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-import ChatRoom from '../../models/chatRoom.js';
-import User from '../../models/user.js';
+import User from "../../models/user.js";
 
-describe('chatRoomRouter', () => {
+describe("chatRoomRouter", () => {
   dotenv.config();
   let adminUserDoc;
   let nonAdminUserDoc;
@@ -14,16 +13,16 @@ describe('chatRoomRouter', () => {
   let createdAdminUser;
 
   const adminUser = {
-    name: 'testName',
-    email: 'testAdmin@gmail.com',
-    password: 'testPassword',
+    name: "testName",
+    email: "testAdmin@gmail.com",
+    password: "testPassword",
     isAdmin: true,
   };
 
   const nonAdminUser = {
-    name: 'testName',
-    email: 'testNonAdmin@gmail.com',
-    password: 'testPassword',
+    name: "testName",
+    email: "testNonAdmin@gmail.com",
+    password: "testPassword",
     isAdmin: false,
   };
 
@@ -41,7 +40,7 @@ describe('chatRoomRouter', () => {
 
   beforeAll(async () => {
     await mongoose
-      .set('strictQuery', true) // remove a mongoose warning
+      .set("strictQuery", true) // remove a mongoose warning
       .connect(process.env.MONGO_URI);
   });
 
@@ -58,22 +57,22 @@ describe('chatRoomRouter', () => {
     await mongoose.disconnect();
   });
 
-  describe('get', () => {
-    it('should return 403 is the user is not admin', async () => {
+  describe("get", () => {
+    it("should return 403 is the user is not admin", async () => {
       const nonAdminUserPayload = {
         email: nonAdminUser.email,
         isAdmin: false,
         userId: createdNonAdminUser._id,
       };
       const token = JWT.sign(nonAdminUserPayload, process.env.JWT_SECRET, {
-        expiresIn: '7d',
+        expiresIn: "7d",
       });
 
       const response = await request(
         `http://localhost:${process.env.SERVER_PORT}`
       )
-        .get('/api/chatrooms')
-        .set('Authorization', `Bearer ${token}`);
+        .get("/api/chatrooms")
+        .set("Authorization", `Bearer ${token}`);
 
       expect(response.statusCode).toBe(403);
     });

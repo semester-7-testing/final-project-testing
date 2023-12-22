@@ -1,27 +1,27 @@
-import request from 'supertest';
-import dotenv from 'dotenv';
-import JWT from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import request from "supertest";
+import dotenv from "dotenv";
+import JWT from "jsonwebtoken";
+import mongoose from "mongoose";
 
-import User from '../../models/user.js';
-import Product from '../../models/product.js';
-import Order from '../../models/order.js';
+import User from "../../models/user.js";
+import Product from "../../models/product.js";
+import Order from "../../models/order.js";
 
 dotenv.config();
 
-describe('User Router', () => {
+describe("User Router", () => {
   const user = {
-    name: 'testName',
-    email: 'testEmail2345',
-    password: 'testPassword',
+    name: "testName",
+    email: "testEmail2345",
+    password: "testPassword",
     isAdmin: true,
   };
 
   const product = {
-    name: 'testName',
-    description: 'testDescription',
+    name: "testName",
+    description: "testDescription",
     price: 1,
-    imgUrl: 'test://test.sk',
+    imgUrl: "test://test.sk",
   };
 
   let userDoc, productDoc, orderDoc;
@@ -29,7 +29,7 @@ describe('User Router', () => {
 
   beforeAll(() => {
     mongoose
-      .set('strictQuery', true) // remove a mongoose warning
+      .set("strictQuery", true) // remove a mongoose warning
       .connect(process.env.MONGO_URI);
   });
 
@@ -45,8 +45,8 @@ describe('User Router', () => {
     const order = {
       userId: createdUser._id,
       products: [{ productId: productDoc._id, quantity: 1 }],
-      deliveryAddress: 'testAddress',
-      status: 'testStatus',
+      deliveryAddress: "testAddress",
+      status: "testStatus",
       email: user.email,
     };
 
@@ -68,30 +68,30 @@ describe('User Router', () => {
     await mongoose.disconnect();
   });
 
-  describe('GET /:userId/orders', () => {
-    it('should return 401 if req.params.userId !== req.user.id', async () => {
-      const invalidUserId = '456';
+  describe("GET /:userId/orders", () => {
+    it("should return 401 if req.params.userId !== req.user.id", async () => {
+      const invalidUserId = "456";
 
       const testUserTokenPayload = {
-        email: 'test@test.sk',
+        email: "test@test.sk",
         isAdmin: true,
-        id: '123',
+        id: "123",
       };
 
       const token = JWT.sign(testUserTokenPayload, process.env.JWT_SECRET, {
-        expiresIn: '7d',
+        expiresIn: "7d",
       });
 
       const response = await request(
         `http://localhost:${process.env.SERVER_PORT}`
       )
         .get(`/api/users/${invalidUserId}/orders`)
-        .set('Authorization', `Bearer ${token}`);
+        .set("Authorization", `Bearer ${token}`);
 
       expect(response.statusCode).toBe(401);
     });
 
-    it('should return all user orders', async () => {
+    it("should return all user orders", async () => {
       const testUserTokenPayload = {
         email: user.email,
         isAdmin: user.isAdmin,
@@ -99,16 +99,15 @@ describe('User Router', () => {
       };
 
       const token = JWT.sign(testUserTokenPayload, process.env.JWT_SECRET, {
-        expiresIn: '7d',
+        expiresIn: "7d",
       });
 
       const response = await request(
         `http://localhost:${process.env.SERVER_PORT}`
       )
         .get(`/api/users/${createdUser._id}/orders`)
-        .set('Authorization', `Bearer ${token}`);
+        .set("Authorization", `Bearer ${token}`);
 
-      console.log(response.body.data.orders[0]);
       expect(response.statusCode).toBe(200);
       expect(response.body.data.orders).toEqual([
         [
