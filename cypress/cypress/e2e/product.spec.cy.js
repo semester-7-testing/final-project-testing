@@ -5,7 +5,7 @@ describe("create a new product", () => {
   const product = {
     name: `my product ${timeStamp}`,
     img: "img/img.sk",
-    price: "23",
+    price: "60",
     description: "this is the best description ever",
   };
 
