@@ -34,7 +34,6 @@ export default defineConfig({
             email: USERS.commonUser.email,
           });
 
-          console.log("userId", user);
           const userId = user._id.toString();
           let productId = product._id;
 
