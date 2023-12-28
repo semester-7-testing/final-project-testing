@@ -49,4 +49,70 @@ describe("create a new product", () => {
 
     cy.getBySelector("card-name").should("have.text", product.name);
   });
+
+  it("should not let common user create a new product", () => {
+    cy.visit("");
+
+    cy.getBySelector("login-button").click();
+
+    cy.getBySelector("email-input").clear();
+    cy.getBySelector("email-input").type(USERS.commonUser.email);
+
+    cy.getBySelector("password-input").clear();
+    cy.getBySelector("password-input").type(USERS.commonUser.password);
+
+    cy.getBySelector("login-submit").click();
+
+    cy.getBySelector("menu-account").click();
+    cy.getBySelector("menu-account-add-product").should("not.exist");
+
+    cy.visit("/add-product");
+    console.log(cy.url());
+    cy.url().should("eq", "http://localhost:3000/"); // /add-product is not accessible for common user
+  });
+});
+
+describe("filter products", () => {
+  it("should filter products by name", () => {
+    cy.visit("");
+
+    const input = cy.getBySelector("product-search-input").get("input");
+    input.clear();
+    input.type("adidas");
+
+    cy.getBySelector("product-search-submit").click();
+
+    // check if all cards contain "adidas" in name
+    cy.getBySelector("card-name").each(card => {
+      expect(card.text().toLowerCase()).to.contain("adidas");
+    });
+  });
+
+  it("should filter products by price in ascending order", () => {
+    cy.visit("");
+
+    cy.get('.price-order-button').first().click();
+    cy.get('.asc-button').click();
+    
+    let last_price = 0;
+    cy.getBySelector("card-price").each(card => {
+      const price = Number.parseFloat(card.text().replace(" €", ""));
+      expect(price).to.be.gte(last_price);
+      last_price = price;
+    });
+  });
+
+  it("should filter products by price in descending order", () => {
+    cy.visit("");
+
+    cy.get('.price-order-button').first().click();
+    cy.get('.desc-button').click();
+    
+    let last_price = Number.POSITIVE_INFINITY;
+    cy.getBySelector("card-price").each(card => {
+      const price = Number.parseFloat(card.text().replace(" €", ""));
+      expect(price).to.be.lte(last_price);
+      last_price = price;
+    });
+  });
 });

@@ -35,15 +35,15 @@
   <div>
     <Button
       variant="raised"
-      class="material-icons"
+      class="material-icons price-order-button"
       on:click={() => filterMenu.setOpen(true)}>Order</Button
     >
     <Menu bind:this={filterMenu}>
       <List>
-        <Item on:SMUI:action={() => handleOrderChange("ASC")}>
+        <Item on:SMUI:action={() => handleOrderChange("ASC")} class="asc-button">
           <Text>Lowest Price</Text>
         </Item>
-        <Item on:SMUI:action={() => handleOrderChange("DESC")}>
+        <Item on:SMUI:action={() => handleOrderChange("DESC")} class="desc-button">
           <Text>Highest Price</Text>
         </Item>
       </List>

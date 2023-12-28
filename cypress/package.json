@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "test": "cypress run",
     "test:open": "cypress open"
   },
   "keywords": [],
