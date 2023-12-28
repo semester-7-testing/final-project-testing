@@ -5,6 +5,7 @@ import escapeRegExp from "lodash/escapeRegExp.js";
 import {
   createProductBodyValidationRules,
   validate,
+  validateQueryParams,
 } from "../../middleware/validation.js";
 
 const router = Router();
@@ -94,9 +95,22 @@ router.post(
  *                        $ref: '#/components/schemas/Product'
  *       '500':
  *         $ref: '#/components/responses/InternalServerError'
+ *      '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error: 
+ *                   type: string
+ *                 data:
+ *                   type: null
  */
-router.get("/", async (req, res) => {
+router.get("/", validateQueryParams, async (req, res) => {
   let { page, limit, priceOrder, searchText } = req.query;
+  if (!page) page = 1;
+  if (!limit) limit = 12;
 
   const query = Product.find();
   if (searchText && searchText !== "") {

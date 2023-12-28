@@ -85,3 +85,18 @@ export const validate = (req, res, next) => {
 
   next();
 };
+
+export const validateQueryParams = (req, res, next) => {
+  const { page, limit, priceOrder } = req.query;
+  
+  let error;
+  if (page && (isNaN(page) || page < 1)) error = "page must be a positive number greater than 0";
+  else if (limit && (isNaN(limit) || limit < 0)) error = "limit must be a positive number greater than or equal to 0";
+  else if (priceOrder && !["ASC", "DESC"].includes(priceOrder)) error = "priceOrder must be ASC or DESC (case sensitive)";
+  
+  if (error) {
+    return res.status(400).json({ error, data: null });
+  }
+  
+  next();
+};
