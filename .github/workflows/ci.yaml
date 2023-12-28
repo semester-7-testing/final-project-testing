@@ -63,5 +63,5 @@ jobs:
         working-directory: ${{ env.CYPRESS_DIRECTORY }}
 
       - name: Run cypress tests
-        run: npx cypress run
+        run: npm test
         working-directory: ${{ env.CYPRESS_DIRECTORY }}
