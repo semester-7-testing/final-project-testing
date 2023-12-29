@@ -1,31 +1,52 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 
+const profiles = {
+    normal: [
+        { duration: '1m', target: 450 }, // traffic ramp-up
+        { duration: '2m', target: 450 }, // steady load
+        { duration: '1m', target: 900 }, // traffic ramp-up 
+        { duration: '2m', target: 900 }, // peak hour
+        { duration: '1m', target: 450 }, // traffic ramp-down 
+        { duration: '2m', target: 450 }, // steady load
+        { duration: '1m', target: 0 }, // ramp-down 
+    ],
+    high: [
+        { duration: '1m', target: 500 }, // traffic ramp-up
+        { duration: '2m', target: 500 }, // steady load
+        { duration: '1m', target: 1500 }, // traffic ramp-up 
+        { duration: '2m', target: 1500 }, // peak hour
+        { duration: '1m', target: 500 }, // traffic ramp-down 
+        { duration: '2m', target: 500 }, // steady load
+        { duration: '1m', target: 0 }, // ramp-down 
+    ],
+    extreme: [
+        { duration: '1m', target: 2000 }, // traffic ramp-up
+        { duration: '2m', target: 2000 }, // steady load
+        { duration: '1m', target: 4000 }, // traffic ramp-up 
+        { duration: '2m', target: 4000 }, // peak hour
+        { duration: '1m', target: 2000 }, // traffic ramp-down 
+        { duration: '2m', target: 2000 }, // steady load
+        { duration: '1m', target: 0 }, // ramp-down
+    ],
+}
+
+const loadProfile = `${__ENV.LOAD_PROFILE}` ? profiles[`${__ENV.LOAD_PROFILE}`] : profiles.normal;
+const host = `${__ENV.HOST}`;
+
 export const options = {
-    // normal
-    stages: [
-        { duration: '1m', target: 500 }, // traffic ramp-up from 1 to 100 users over 1 minute.
-        { duration: '2m', target: 500 }, // stay at 100 users for 5 minutes
-        { duration: '1m', target: 1500 }, // traffic ramp-up from 100 to 200 users over 1 minute (peak hour starts)
-        { duration: '2m', target: 1500 }, // stay at 200 users for 5 minutes
-        { duration: '1m', target: 500 }, // traffic ramp-down from 200 to 100 users over 1 minute (peak hour ends)
-        { duration: '2m', target: 500 }, // stay at 100 users for 5 minutes
-        { duration: '1m', target: 0 }, // ramp-down to 0 users
-      ],
-    // extreme
-    // stages: [
-    //     { duration: '1m', target: 2000 }, // traffic ramp-up from 1 to 100 users over 1 minute.
-    //     { duration: '2m', target: 2000 }, // stay at 100 users for 5 minutes
-    //     { duration: '1m', target: 4000 }, // traffic ramp-up from 100 to 200 users over 1 minute (peak hour starts)
-    //     { duration: '2m', target: 4000 }, // stay at 200 users for 5 minutes
-    //     { duration: '1m', target: 2000 }, // traffic ramp-down from 200 to 100 users over 1 minute (peak hour ends)
-    //     { duration: '2m', target: 2000 }, // stay at 100 users for 5 minutes
-    //     { duration: '1m', target: 0 }, // ramp-down to 0 users
-    //   ],
+    stages: loadProfile,
 };
 
 export default function () {
-  // http.get('http://192.168.122.117:3000/');
-  http.get('http://192.168.122.117:8080/api/products');
-  sleep(1);
+    let url;
+    switch (host) {
+        case 'frontend':
+            url = 'http://192.168.122.117:3000/)';
+            break;
+        default:
+            url = 'http://192.168.122.117:8080/api/products';
+    }
+    http.get(url);
+    sleep(1);
 }
