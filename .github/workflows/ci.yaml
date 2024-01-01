@@ -1,10 +1,10 @@
 name: CI
 
 # Uncomment next line to run on push. Disabled for now because it would run on every push to every branch
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
 env:
   SERVER_DIRECTORY: server
