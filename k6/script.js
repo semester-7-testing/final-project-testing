@@ -42,7 +42,7 @@ export default function () {
     let url;
     switch (host) {
         case 'frontend':
-            url = 'http://192.168.122.117:3000/)';
+            url = 'http://192.168.122.117:3000/';
             break;
         default:
             url = 'http://192.168.122.117:8080/api/products';
