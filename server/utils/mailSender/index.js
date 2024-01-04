@@ -9,7 +9,7 @@ export const sendMail = (mailOptions) => {
     },
   });
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(undefined, (error, info) => {
     if (error) {
       console.log(error);
     } else {
