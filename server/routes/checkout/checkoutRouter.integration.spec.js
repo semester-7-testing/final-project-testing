@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// boundary value tests
 describe("checkout", () => {
   it.each([{ amount: 40 }, { amount: 80 }])(
     "should return new stripe client session when request body is valid",

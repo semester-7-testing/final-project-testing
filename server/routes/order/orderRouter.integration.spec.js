@@ -6,6 +6,7 @@ import Order from "../../models/order.js";
 
 dotenv.config();
 
+// testing DB
 describe("order router", () => {
   let productDoc;
 

@@ -49,6 +49,8 @@ describe("get mail options", () => {
     }
   );
 
+  // stubs
+  //parameterized test
   it.each([
     [receivers, undefined, orderAddress],
     [receivers, "", orderAddress],
@@ -78,6 +80,7 @@ describe("get mail options", () => {
   );
 });
 
+// mocking
 jest.mock("nodemailer", () => ({
   createTransport: jest.fn().mockReturnValue({
     sendMail: jest.fn().mockReturnValue((mailoptions, callback) => {}),
